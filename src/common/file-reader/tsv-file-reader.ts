@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 import { OfferType } from '../../types/offer-type.enum.js';
 import { UserType } from '../../types/user-type.enum.js';
 import { CityEnum } from '../../types/city.enum.js';

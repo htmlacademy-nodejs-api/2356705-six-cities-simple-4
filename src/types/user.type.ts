@@ -7,3 +7,4 @@ export type User = {
     password: string;
     type: UserType;
   }
+  
