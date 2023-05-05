@@ -7,4 +7,3 @@ export enum Comfort {
     Towels = 'Towels',
     Fridge = 'Fridge',
   }
-  
