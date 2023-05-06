@@ -21,25 +21,25 @@ export default class TSVFileReader implements FileReaderInterface {
     }
 
     return this.rawData
-      .split('\n')
+      .split(/\r\n|\n|\r/)
       .filter((row) => row.trim() !== '')
       .map((line) => line.split('\t'))
-      .map(([title, description, createdDate,, previewImage, photos, premiumFlag, rating, type, rooms, guests,price,comfort,userName,email,avatarPath,password,,latitude,longitude]) => ({
+      .map(([title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests,price,comfort,userName,email,avatarPath,password,userType,latitude,longitude]) => ({
         title,
         description,
         postDate: new Date(createdDate),
-        city: CityEnum[type as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
+        city: CityEnum[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
         previewImage,
         photos: photos.split(';'),
         premiumFlag:(premiumFlag?.toLowerCase?.() === 'true'),
-        rating: Number.parseInt(rating, 10),
+        rating: Math.floor(parseFloat(rating.replace(',','.')) * 10) / 10,
         type: OfferType[type as 'Apartment' | 'House' | 'Room' | 'Hotel'],
         rooms: Number.parseInt(rooms, 10),
         guests: Number.parseInt(guests, 10),
         price: Number.parseInt(price, 10),
         comfort: comfort.split(';')
-          .map(() => (Comfort[type as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
-        user: {name:userName,email, avatarPath, password, type: UserType[type as 'Pro' | 'Basic']},
+          .map((oneComfort) => (Comfort[oneComfort as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
+        user: {name:userName,email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic']},
         comments: [],
         coordinates: {latitude, longitude},
       }));
