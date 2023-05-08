@@ -1,47 +1,34 @@
-import { readFileSync } from 'node:fs';
-import { OfferType } from '../../types/offer-type.enum.js';
-import { UserType } from '../../types/user-type.enum.js';
-import { CityEnum } from '../../types/city.enum.js';
-import { Offer } from '../../types/offer.type.js';
-import { Comfort } from '../../types/comfort.enum.js';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReaderInterface } from './file-reader.interface.js';
 
-export default class TSVFileReader implements FileReaderInterface {
-  private rawData = '';
-
-  constructor(public filename: string) { }
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf8' });
+export default class TSVFileReader extends EventEmitter implements FileReaderInterface {
+  constructor(public filename: string) {
+    super();
   }
 
-  public toArray(): Offer[] {
-    if (!this.rawData) {
-      return [];
+  public async read():Promise<void> {
+    const stream = createReadStream(this.filename, {
+      highWaterMark: 16384, // 16KB
+      encoding: 'utf-8',
+    });
+
+    let lineRead = '';
+    let endLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of stream) {
+      lineRead += chunk.toString();
+
+      while ((endLinePosition = lineRead.indexOf('\n')) >= 0) {
+        const completeRow = lineRead.slice(0, endLinePosition + 1);
+        lineRead = lineRead.slice(++endLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split(/\r\n|\n|\r/)
-      .filter((row) => row.trim() !== '')
-      .map((line) => line.split('\t'))
-      .map(([title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests,price,comfort,userName,email,avatarPath,password,userType,latitude,longitude]) => ({
-        title,
-        description,
-        postDate: new Date(createdDate),
-        city: CityEnum[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
-        previewImage,
-        photos: photos.split(';'),
-        premiumFlag:(premiumFlag?.toLowerCase?.() === 'true'),
-        rating: Math.floor(parseFloat(rating.replace(',','.')) * 10) / 10,
-        type: OfferType[type as 'Apartment' | 'House' | 'Room' | 'Hotel'],
-        rooms: Number.parseInt(rooms, 10),
-        guests: Number.parseInt(guests, 10),
-        price: Number.parseInt(price, 10),
-        comfort: comfort.split(';')
-          .map((oneComfort) => (Comfort[oneComfort as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
-        user: {name:userName,email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic']},
-        comments: [],
-        coordinates: {latitude, longitude},
-      }));
+    this.emit('end', importedRowCount);
   }
 }
