@@ -4,11 +4,12 @@ import { OfferType } from '../../types/offer-type.enum.js';
 import { UserType } from '../../types/user-type.enum.js';
 import { CityEnum } from '../../types/city.enum.js';
 import { Comfort } from '../../types/comfort.enum.js';
-import { generateRandomValue, getRandomItem, getRandomEnumKey, getRandomEnumKeys, getRandomFixItems } from '../../utils/random.js';
+import { generateRandomValue, getRandomItem, getRandomEnumKey, getRandomEnumKeys, getRandomItems } from '../../utils/random.js';
 import { OfferGeneratorInterface } from './offer-generator.interface.js';
 
 const MIN_RATING = 1;
 const MAX_RATING = 5;
+const RATING_PRECISION = 1;
 
 const MIN_ROOMS = 1;
 const MAX_ROOMS = 8;
@@ -22,6 +23,8 @@ const MAX_PRICE = 100000;
 const FIRST_WEEK_DAY = 1;
 const LAST_WEEK_DAY = 7;
 
+const NUM_PHOTOS = 6;
+
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockData) {}
@@ -32,9 +35,9 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const createdDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
     const city = getRandomEnumKey(CityEnum);
     const previewImage = getRandomItem<string>(this.mockData.previewImages);
-    const photos = getRandomFixItems<string>(this.mockData.photos, 6).join(';');
+    const photos = getRandomItems<string>(this.mockData.photos, NUM_PHOTOS).join(';');
     const premiumFlag = getRandomItem<string>(['true','false']);
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1).toString();
+    const rating = generateRandomValue(MIN_RATING, MAX_RATING, RATING_PRECISION).toString();
     const type = getRandomEnumKey(OfferType);
     const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS).toString();
     const guests = generateRandomValue(MIN_GUESTS, MAX_GUESTS).toString();
