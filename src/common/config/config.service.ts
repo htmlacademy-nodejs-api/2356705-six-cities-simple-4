@@ -8,23 +8,23 @@ import {Component} from '../../types/component.types.js';
 @injectable()
 export default class ConfigService implements ConfigInterface {
   private config: ConfigSchema;
-    private logger: LoggerInterface;
+  private logger: LoggerInterface;
 
-    constructor(@inject(Component.LoggerInterface) logger: LoggerInterface) {
-        this.logger = logger;
-    
-        const parsedOutput = config();
-    
-        if (parsedOutput.error) {
-          throw new Error('Не могу прочитать .env файл. Возможно файл не существует.');
-        }
-    
-        configSchema.load({});
-        configSchema.validate({allowed: 'strict', output: this.logger.info});
+  constructor(@inject(Component.LoggerInterface) logger: LoggerInterface) {
+    this.logger = logger;
 
-        this.config = configSchema.getProperties();
-        this.logger.info('.env файл успешно прочитан!');
+    const parsedOutput = config();
+
+    if (parsedOutput.error) {
+      throw new Error('Не могу прочитать .env файл. Возможно файл не существует.');
     }
+
+    configSchema.load({});
+    configSchema.validate({allowed: 'strict', output: this.logger.info});
+
+    this.config = configSchema.getProperties();
+    this.logger.info('.env файл успешно прочитан!');
+  }
 
   public get<T extends keyof ConfigSchema>(key: T) {
     return this.config[key];
