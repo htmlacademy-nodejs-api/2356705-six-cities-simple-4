@@ -5,6 +5,7 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import { DatabaseClientInterface } from '../common/database-client/database-client.interface';
 import { getMongoURI } from '../utils/db.js';
+import { UserModel } from '../modules/user/user.model.js';
 
 @injectable()
 export default class Application {
@@ -34,5 +35,11 @@ export default class Application {
     this.logger.info('Инициализация подклюяения к БД…');
     await this._initDb();
     this.logger.info('Подключен к БД');
+    await UserModel.create({
+      email: 'test@email.local',
+      avatarPath: 'keks.jpg',
+      name: 'Keks',
+      type: 'pro'
+     });
   }
 }
