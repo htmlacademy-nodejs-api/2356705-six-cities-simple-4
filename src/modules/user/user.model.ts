@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { User } from '../../types/user.type.js';
+import { UserType } from '../../types/user-type.enum.js';
 
 export interface UserDocument extends User, mongoose.Document {
     createdAt: Date,
@@ -7,6 +8,12 @@ export interface UserDocument extends User, mongoose.Document {
   }
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: [1, 'Min length for name is 1'],
+    maxlength: [15, 'Max length for name is 15'],
+  },
   email: {
     type: String,
     unique: true,
@@ -18,13 +25,11 @@ const userSchema = new mongoose.Schema({
     required: false,
     match: [/^[\w-\\.]+?\.(jpg|png)$/, 'avatar is incorrect'],
   },
-  name: {
+  type: {
     type: String,
     required: true,
-    minlength: [1, 'Min length for name is 1'],
-    maxlength: [15, 'Max length for name is 15'],
+    enum: Object.values(UserType),
   },
-  type: String,
 }, {
     timestamps: true,
 });
