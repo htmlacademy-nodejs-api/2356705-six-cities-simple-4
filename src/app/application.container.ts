@@ -8,11 +8,12 @@ import ConfigService from '../common/config/config.service.js';
 import MongoClientService from '../common/database-client/mongo-client.service.js';
 import {Component} from '../types/component.types.js';
 
-const applicationContainer = new Container();
+export function createApplicationContainer() {
+  const restApplicationContainer = new Container();
+  restApplicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
+  restApplicationContainer.bind<LoggerInterface>(Component.LoggerInterface).to(LoggerService).inSingletonScope();
+  restApplicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigService).inSingletonScope();
+  restApplicationContainer.bind<DatabaseClientInterface>(Component.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
 
-applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
-applicationContainer.bind<LoggerInterface>(Component.LoggerInterface).to(LoggerService).inSingletonScope();
-applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigService).inSingletonScope();
-applicationContainer.bind<DatabaseClientInterface>(Component.DatabaseClientInterface).to(MongoClientService).inSingletonScope();
-
-export {applicationContainer};
+  return restApplicationContainer;
+}

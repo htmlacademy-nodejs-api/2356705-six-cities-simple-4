@@ -34,14 +34,5 @@ export default class Application {
 
     this.logger.info('Инициализация подклюяения к БД…');
     await this._initDb();
-    this.logger.info('Подключен к БД');
-    const user = await UserModel.create({
-      email: 'test@email.local',
-      avatarPath: 'keks.jpg',
-      name: 'Keks',
-      type: 'pro'
-    });
-    const error = user.validateSync();
-    console.log(error);
   }
 }
