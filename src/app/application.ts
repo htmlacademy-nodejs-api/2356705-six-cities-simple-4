@@ -5,7 +5,7 @@ import {ConfigInterface} from '../common/config/config.interface.js';
 import {Component} from '../types/component.types.js';
 import { DatabaseClientInterface } from '../common/database-client/database-client.interface';
 import { getMongoURI } from '../utils/db.js';
-import { UserModel } from '../modules/user/user.model.js';
+import { UserModel } from '../modules/user/user.entity.js';
 
 @injectable()
 export default class Application {
@@ -40,7 +40,7 @@ export default class Application {
       avatarPath: 'keks.jpg',
       name: 'Keks',
       type: 'pro'
-     });
+    });
     const error = user.validateSync();
     console.log(error);
   }
