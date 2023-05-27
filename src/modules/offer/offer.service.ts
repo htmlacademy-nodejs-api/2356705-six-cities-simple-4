@@ -58,16 +58,17 @@ export default class OfferService implements OfferServiceInterface {
       }).exec();
   }
 
-  public async calcRaiting(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .aggregate([
-        {
-          $group:
-          {
-            _id: '$offerId',
-            avgRaiting: { $avg: '$raiting' }
-          }
-        }
-      ]).exec();
-  }
+  // TODO Расчет рейтинга 
+  // public async calcRaiting(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  //   return this.offerModel
+  //     .aggregate([
+  //       {
+  //         $group:
+  //         {
+  //           _id: '$offerId',
+  //           avgRaiting: { $avg: '$raiting' }
+  //         }
+  //       }
+  //     ]).exec();
+  // }
 }
