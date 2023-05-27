@@ -37,7 +37,7 @@ paths:
       description: Получает список предложений по аренде
 
   /offers/{offerId}:
-    put:
+    patch:
       tags:
         - offers
       summary: Редактирование предложения по аренде
