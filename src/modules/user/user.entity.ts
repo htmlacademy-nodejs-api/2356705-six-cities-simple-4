@@ -15,19 +15,19 @@ export interface UserEntity extends defaultClasses.Base {}
 
 export class UserEntity extends defaultClasses.TimeStamps implements User {
 
-  @prop({required: true, default: ''})
+  @prop({required: true})
   public name!: string;
 
   @prop({ unique: true, required: true })
   public email!: string;
 
-  @prop({required: true, default: ''})
+  @prop({required: true, default: 'defualtAvatar.png'})
   public avatarPath!: string;
 
   @prop({required: true, default: 'обычный'})
   public type!: UserType;
 
-  @prop({required: true, default: ''})
+  @prop({required: true})
   private password?: string;
 
   constructor(userData: User) {
