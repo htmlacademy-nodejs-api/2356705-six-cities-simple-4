@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import {inject, injectable} from 'inversify';
-import {LoggerInterface} from '../common/logger/logger.interface.js';
-import {ConfigInterface} from '../common/config/config.interface.js';
-import {Component} from '../types/component.types.js';
+import { inject, injectable } from 'inversify';
+import { LoggerInterface } from '../common/logger/logger.interface.js';
+import { ConfigInterface } from '../common/config/config.interface.js';
+import { Component } from '../types/component.types.js';
 import { DatabaseClientInterface } from '../common/database-client/database-client.interface';
 import { getMongoURI } from '../utils/db.js';
 
@@ -12,7 +12,7 @@ export default class Application {
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface
-  ) {}
+  ) { }
 
   private async _initDb() {
     const mongoUri = getMongoURI(

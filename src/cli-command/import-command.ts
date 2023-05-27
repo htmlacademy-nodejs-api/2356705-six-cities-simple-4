@@ -1,6 +1,6 @@
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
 import { CliCommandInterface } from './cli-command.interface.js';
-import {createOffer, getErrorMessage} from '../utils/common.js';
+import { createOffer, getErrorMessage } from '../utils/common.js';
 import { UserServiceInterface } from '../modules/user/user-service.interface.js';
 import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -72,7 +72,7 @@ export default class ImportCommand implements CliCommandInterface {
 
     try {
       await fileReader.read();
-    } catch(err) {
+    } catch (err) {
       console.log(`Не удается прочитать файл, по причине: ${getErrorMessage(err)}`);
     }
   }

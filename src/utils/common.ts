@@ -15,17 +15,17 @@ export const createOffer = (row: string) => {
     city: CityEnum[city as 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf'],
     previewImage,
     photos: photos.split(';'),
-    premiumFlag:(premiumFlag?.toLowerCase?.() === 'true'),
-    rating: Math.floor(parseFloat(rating.replace(',','.')) * 10) / 10,
+    premiumFlag: (premiumFlag?.toLowerCase?.() === 'true'),
+    rating: Math.floor(parseFloat(rating.replace(',', '.')) * 10) / 10,
     type: OfferType[type as 'Apartment' | 'House' | 'Room' | 'Hotel'],
     rooms: Number.parseInt(rooms, 10),
     guests: Number.parseInt(guests, 10),
     price: Number.parseInt(price, 10),
     comfort: comfort.split(';')
       .map((oneComfort) => (Comfort[oneComfort as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
-    user: {name:userName,email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic']},
+    user: { name: userName, email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic'] },
     comments: [],
-    coordinates: {latitude, longitude},
+    coordinates: { latitude, longitude },
   } as Offer;
 };
 

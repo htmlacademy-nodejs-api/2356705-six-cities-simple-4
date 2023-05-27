@@ -54,14 +54,14 @@ paths:
         - offers
       summary: Детальная информация по предложению
       description: Получает детальную информацию по предложению
-      
+
   /comments/{offerId}:
     get:
       tags:
         - comments
       summary: Список комментариев для предложения
       description: Получает список комментариев для предложения
-      
+
     post:
       tags:
         - comments
@@ -80,7 +80,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUser'
+              $ref: "#/components/schemas/createUser"
         required: true
 
       responses:
@@ -89,11 +89,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
 
         "409":
           description: Пользователь с таким email уже существует.
-
 
   /users/login:
     post:
@@ -107,7 +106,6 @@ paths:
         - users
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю
-
 
 components:
   schemas:
