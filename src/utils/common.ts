@@ -4,6 +4,7 @@ import { CityEnum } from '../types/city.enum.js';
 import { Offer } from '../types/offer.type.js';
 import { Comfort } from '../types/comfort.enum.js';
 import crypto from 'node:crypto';
+import { plainToInstance, ClassConstructor } from 'class-transformer';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\r', '').replace('\n', '').split('\t');
@@ -28,6 +29,16 @@ export const createOffer = (row: string) => {
     coordinates: { latitude, longitude },
   } as Offer;
 };
+
+export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
+  return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
+}
+
+export function createErrorObject(message: string) {
+  return {
+    error: message,
+  };
+}
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';

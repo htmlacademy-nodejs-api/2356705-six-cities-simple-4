@@ -6,6 +6,7 @@ import { Component } from '../../types/component.types.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
+import { DEFAULT_OFFERS_COUNT } from './offer.constant.js';
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
@@ -28,9 +29,10 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async find(): Promise<DocumentType<OfferEntity>[]> {
+  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ?? DEFAULT_OFFERS_COUNT;
     return this.offerModel
-      .find()
+      .find({}, {}, { limit })
       .populate(['userId'])
       .exec();
   }
