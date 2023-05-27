@@ -58,7 +58,7 @@ export default class OfferService implements OfferServiceInterface {
       }).exec();
   }
 
-  // TODO Расчет рейтинга 
+  // TODO Расчет рейтинга
   // public async calcRaiting(offerId: string): Promise<DocumentType<OfferEntity> | null> {
   //   return this.offerModel
   //     .aggregate([

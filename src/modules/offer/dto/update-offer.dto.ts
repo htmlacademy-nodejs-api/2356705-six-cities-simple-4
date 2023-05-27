@@ -1,7 +1,7 @@
-import { CityEnum } from "../../../types/city.enum";
-import { Comfort } from "../../../types/comfort.enum";
-import { Coordinates } from "../../../types/coordinates.type";
-import { OfferType } from "../../../types/offer-type.enum";
+import { CityEnum } from '../../../types/city.enum';
+import { Comfort } from '../../../types/comfort.enum';
+import { Coordinates } from '../../../types/coordinates.type';
+import { OfferType } from '../../../types/offer-type.enum';
 
 export default class UpdateOfferDto {
   public title?: string;
