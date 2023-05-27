@@ -15,7 +15,7 @@ export default class MongoClientService implements DatabaseClientInterface {
 
   constructor(
     @inject(Component.LoggerInterface) private readonly logger: LoggerInterface
-  ) {}
+  ) { }
 
   private async _connectWithRetry(uri: string): Promise<Mongoose> {
     let attempt = 0;
@@ -33,7 +33,7 @@ export default class MongoClientService implements DatabaseClientInterface {
     throw new Error('Подключение к БД прервано');
   }
 
-  private async _connect(uri:string): Promise<void> {
+  private async _connect(uri: string): Promise<void> {
     this.mongooseInstance = await this._connectWithRetry(uri);
     this.isConnected = true;
   }

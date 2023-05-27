@@ -1,5 +1,5 @@
 import { Container } from 'inversify';
-import {types} from '@typegoose/typegoose';
+import { types } from '@typegoose/typegoose';
 import { Component } from '../../types/component.types.js';
 import OfferService from './offer.service.js';
 import { OfferEntity, OfferModel } from './offer.entity.js';

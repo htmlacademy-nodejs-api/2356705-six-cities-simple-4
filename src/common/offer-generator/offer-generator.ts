@@ -27,7 +27,7 @@ const NUM_PHOTOS = 6;
 
 
 export default class OfferGenerator implements OfferGeneratorInterface {
-  constructor(private readonly mockData: MockData) {}
+  constructor(private readonly mockData: MockData) { }
 
   public generate(): string {
     const title = getRandomItem<string>(this.mockData.titles);
@@ -36,7 +36,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const city = getRandomEnumKey(CityEnum);
     const previewImage = getRandomItem<string>(this.mockData.previewImages);
     const photos = getRandomItems<string>(this.mockData.photos, NUM_PHOTOS).join(';');
-    const premiumFlag = getRandomItem<string>(['true','false']);
+    const premiumFlag = getRandomItem<string>(['true', 'false']);
     const rating = generateRandomValue(MIN_RATING, MAX_RATING, RATING_PRECISION).toString();
     const type = getRandomEnumKey(OfferType);
     const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS).toString();

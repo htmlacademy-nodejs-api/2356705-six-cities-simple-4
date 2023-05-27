@@ -1,7 +1,7 @@
 import { CliCommandInterface } from './cli-command.interface.js';
 import { Chalk } from 'chalk';
 
-const customChalk = new Chalk({level: 1});
+const customChalk = new Chalk({ level: 1 });
 
 export default class HelpCommand implements CliCommandInterface {
   public readonly name = '--help';
