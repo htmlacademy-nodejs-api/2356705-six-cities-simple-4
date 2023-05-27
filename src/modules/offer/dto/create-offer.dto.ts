@@ -11,7 +11,7 @@ export default class CreateOfferDto {
   public previewImage!: string;
   public photos!: string[];
   public premiumFlag!: boolean;
-  public rating!: number;
+  public rating!: number[];
   public type!: OfferType;
   public rooms!: number;
   public guests!: number;
