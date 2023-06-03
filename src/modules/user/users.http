@@ -25,3 +25,15 @@ Content-Type: application/json
 GET http://localhost:3000/users/login HTTP/1.1
 
 ###
+
+## Отправка аватарки пользователю
+
+POST http://localhost:3000/users/646a757820ae59d340604946/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Type: image/png
+
+< C:\Users\moyam\Downloads\avatar.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
