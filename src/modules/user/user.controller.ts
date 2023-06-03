@@ -12,6 +12,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import HttpError from '../../common/errors/http-error.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -24,8 +25,18 @@ export default class UserController extends Controller {
 
     this.logger.info('Маршруты для UserController…');
 
-    this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login });
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
     this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.check });
   }
 
