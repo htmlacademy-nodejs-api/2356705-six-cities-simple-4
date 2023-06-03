@@ -7,6 +7,7 @@ import { OfferServiceInterface } from './offer-service.interface.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import { DEFAULT_OFFERS_COUNT } from './offer.constant.js';
+import { SortType } from '../../types/sort-type.enum.js';
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
@@ -22,6 +23,11 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel
+      .exists({ _id: documentId })) !== null;
+  }
+
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
@@ -32,17 +38,17 @@ export default class OfferService implements OfferServiceInterface {
   public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFERS_COUNT;
     return this.offerModel
-      .find({}, {}, { limit })
+      .find()
+      .sort({ postDate: SortType.Down })
+      .limit(limit)
       .populate(['userId'])
       .exec();
   }
 
-  public async deleteByOfferId(offerId: string): Promise<number> {
-    const result = await this.offerModel
-      .deleteMany({ offerId })
+  public async deleteByOfferId(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndDelete(offerId)
       .exec();
-
-    return result.deletedCount;
   }
 
   public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {

@@ -19,7 +19,7 @@ export default class Application {
     @inject(Component.OfferController) private readonly offerController: ControllerInterface,
     @inject(Component.UserController) private readonly userController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private readonly exceptionFilter: ExceptionFilterInterface,
-    // @inject(Component.CommentController) private readonly commentController: ControllerInterface,
+    @inject(Component.CommentController) private readonly commentController: ControllerInterface,
   ) {
     this.expressApplication = express();
   }
@@ -51,7 +51,7 @@ export default class Application {
     this.logger.info('Controller initialization…');
     this.expressApplication.use('/offers', this.offerController.router);
     this.expressApplication.use('/users', this.userController.router);
-    // this.expressApplication.use('/comments', this.commentController.router);
+    this.expressApplication.use('/comments', this.commentController.router);
     this.logger.info('Controller initialization completed');
   }
 

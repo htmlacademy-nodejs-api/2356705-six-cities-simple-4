@@ -1,8 +1,14 @@
 # Получение списка комментариев для предложения
-GET http://localhost:3000/comments/1 HTTP/1.1
+GET http://localhost:3000/comments HTTP/1.1
 
 ###
 # Добавление комментария для предложения
-POST http://localhost:3000/comments/1 HTTP/1.1
+POST http://localhost:3000/comments HTTP/1.1
+Content-Type: application/json
 
+{
+  "text": "Странное предложение",
+  "offerId": "646a76c7c0b4d0ec9275092d",
+  "userId": "646a76c7c0b4d0ec9275091d"
+}
 ###

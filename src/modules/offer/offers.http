@@ -4,17 +4,66 @@ GET http://localhost:3000/offers HTTP/1.1
 ###
 # Создание нового предложения
 POST http://localhost:3000/offers HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Годрикова впадина 2",
+  "description": "Здесь всё началось и всё заканчивается",
+  "postDate": "2023-06-01T08:45:40.284Z",
+  "city": "Amsterdam",
+  "previewImage": "dada.png",
+  "photos": [
+    "dada1.png",
+    "dada2.png",
+    "dada3.png",
+    "dada4.png",
+    "dada5.png",
+    "dada6.png"
+  ],
+  "premiumFlag": false,
+  "rating": [
+    4.5
+  ],
+  "type": "apartment",
+  "rooms": 1,
+  "guests": 1,
+  "price": 1000,
+  "comfort": [
+    "Washer"
+  ],
+  "coordinates": {
+    "latitude": "52.370216",
+    "longitude": "4.895168"
+  },
+  "commentCount": 0,
+  "userId": "646a757820ae59d34060494b"
+}
 
 ###
 # Редактирование предложения
-PUT http://localhost:3000/offers/1 HTTP/1.1
+PATCH http://localhost:3000/offers/646a76c7c0b4d0ec9275092d HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "UPD Хрущевка в центре",
+  "description": "UPD Отличный вариант для тех, кто хочет жить в центре и не переплачивать",
+  "coordinates": {
+    "latitude": "52.370216",
+    "longitude": "4.895168"
+  }
+}
 
 ###
 # Удаление предложения
-DELETE http://localhost:3000/offers/1 HTTP/1.1
+DELETE http://localhost:3000/offers/646a757820ae59d34060494d HTTP/1.1
 
 ###
 # Получение детальной информации о предложении
-GET http://localhost:3000/offers/1 HTTP/1.1
+GET http://localhost:3000/offers/646a76c7c0b4d0ec9275092d HTTP/1.1
+
+###
+
+## Список комментариев к предложению
+GET http://localhost:3000/offers/646a76c7c0b4d0ec9275092d/comments HTTP/1.1
 
 ###
