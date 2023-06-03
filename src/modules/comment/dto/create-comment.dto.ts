@@ -1,4 +1,4 @@
-import { IsMongoId, IsString, Length } from "class-validator";
+import { IsMongoId, IsString, Length } from 'class-validator';
 
 export default class CreateCommentDto {
   @IsString({ message: 'Field text is required' })

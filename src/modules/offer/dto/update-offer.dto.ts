@@ -7,11 +7,11 @@ import { IsArray, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsBoolean, IsNu
 class Coordinates {
   @IsString({ message: 'Field latitude must be string' })
   @IsLatitude({ message: 'Field latitude must be valid' })
-  latitude!: string;
+    latitude!: string;
 
   @IsString({ message: 'Field longitude must be string' })
   @IsLongitude({ message: 'Field longitude must be valid' })
-  longitude!: string;
+    longitude!: string;
 }
 
 export default class UpdateOfferDto {
