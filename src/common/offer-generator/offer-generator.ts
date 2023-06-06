@@ -6,25 +6,10 @@ import { CityEnum } from '../../types/city.enum.js';
 import { Comfort } from '../../types/comfort.enum.js';
 import { generateRandomValue, getRandomItem, getRandomEnumKey, getRandomEnumKeys, getRandomItems } from '../../utils/random.js';
 import { OfferGeneratorInterface } from './offer-generator.interface.js';
-
-const MIN_RATING = 1;
-const MAX_RATING = 5;
-const RATING_PRECISION = 1;
-
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 8;
-
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 10;
-
-const MIN_PRICE = 100;
-const MAX_PRICE = 100000;
+import { OfferConstants } from '../../types/constants.js';
 
 const FIRST_WEEK_DAY = 1;
 const LAST_WEEK_DAY = 7;
-
-const NUM_PHOTOS = 6;
-
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockData) { }
@@ -35,14 +20,14 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const createdDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
     const city = getRandomEnumKey(CityEnum);
     const previewImage = getRandomItem<string>(this.mockData.previewImages);
-    const photos = getRandomItems<string>(this.mockData.photos, NUM_PHOTOS).join(';');
+    const photos = getRandomItems<string>(this.mockData.photos, OfferConstants.PHOTOS_ARRAY_SIZE).join(';');
     const premiumFlag = getRandomItem<string>(['true', 'false']);
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, RATING_PRECISION).toString();
+    const rating = generateRandomValue(OfferConstants.MIN_RATING, OfferConstants.MAX_RATING, OfferConstants.RATING_PRECISION).toString();
     const type = getRandomEnumKey(OfferType);
-    const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS).toString();
-    const guests = generateRandomValue(MIN_GUESTS, MAX_GUESTS).toString();
-    const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
-    const comfort = getRandomEnumKeys(Comfort).join(';');
+    const rooms = generateRandomValue(OfferConstants.MIN_ROOMS, OfferConstants.MAX_ROOMS).toString();
+    const guests = generateRandomValue(OfferConstants.MIN_GUESTS, OfferConstants.MAX_GUESTS).toString();
+    const price = generateRandomValue(OfferConstants.MIN_PRICE, OfferConstants.MAX_PRICE).toString();
+    const comforts = getRandomEnumKeys(Comfort).join(';');
     const userName = getRandomItem<string>(this.mockData.userNames);
     const avatarPath = getRandomItem<string>(this.mockData.avatarPaths);
     const email = getRandomItem<string>(this.mockData.emails);
@@ -55,7 +40,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     return [
       title, description, createdDate, city,
       previewImage, photos, premiumFlag, rating,
-      type, rooms, guests, price, comfort,
+      type, rooms, guests, price, comforts,
       userName, email, avatarPath, password, userType,
       latitude, longitude
     ].join('\t');

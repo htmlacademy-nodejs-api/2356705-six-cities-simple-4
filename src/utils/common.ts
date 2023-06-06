@@ -8,7 +8,7 @@ import { plainToInstance, ClassConstructor } from 'class-transformer';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\r', '').replace('\n', '').split('\t');
-  const [title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests, price, comfort, userName, email, avatarPath, password, userType, latitude, longitude] = tokens;
+  const [title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests, price, comforts, userName, email, avatarPath, password, userType, latitude, longitude] = tokens;
   return {
     title,
     description,
@@ -22,7 +22,7 @@ export const createOffer = (row: string) => {
     rooms: Number.parseInt(rooms, 10),
     guests: Number.parseInt(guests, 10),
     price: Number.parseInt(price, 10),
-    comfort: comfort.split(';')
+    comforts: comforts.split(';')
       .map((oneComfort) => (Comfort[oneComfort as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
     user: { name: userName, email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic'] },
     comments: [],

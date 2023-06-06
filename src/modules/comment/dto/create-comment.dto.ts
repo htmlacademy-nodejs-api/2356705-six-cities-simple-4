@@ -1,13 +1,18 @@
-import { IsMongoId, IsString, Length } from 'class-validator';
+import { IsMongoId, IsNumber, Length, Max, Min } from 'class-validator';
+import { CommentConstants, OfferConstants, OfferMessages } from '../../../types/constants.js';
 
 export default class CreateCommentDto {
-  @IsString({ message: 'Field text is required' })
-  @Length(5, 1024, { message: 'Field text is min length is 5, max is 1024' })
+  @Length(CommentConstants.MIN_TEXT_LENGTH, CommentConstants.MAX_TEXT_LENGTH)
   public text!: string;
 
-  @IsMongoId({ message: 'Field offerId field must be a valid id' })
+  @IsNumber({ maxDecimalPlaces: OfferConstants.RATING_PRECISION }, { message: OfferMessages.ERROR_RATING_PRECISION })
+  @Min(OfferConstants.MIN_RATING)
+  @Max(OfferConstants.MAX_RATING)
+  public rating!: number;
+
+  @IsMongoId()
   public offerId!: string;
 
-  @IsMongoId({ message: 'Field userId field must be a valid id' })
+  @IsMongoId()
   public userId!: string;
 }

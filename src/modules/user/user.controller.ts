@@ -65,11 +65,9 @@ export default class UserController extends Controller {
       );
     }
 
-    const result = await this.userService.create(body, this.config.get('SALT'));
-    this.created(
-      res,
-      fillDTO(UserRdo, result)
-    );
+    const user = await this.userService.create(body, this.config.get('SALT'));
+    const userToResponse = fillDTO(UserRdo, user);
+    this.created<UserRdo>(res, userToResponse);
   }
 
   public async login(

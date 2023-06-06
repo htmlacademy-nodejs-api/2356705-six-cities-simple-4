@@ -86,13 +86,13 @@ export default class OfferController extends Controller {
     const result = await this.offerService.create(body);
     const offer = await this.offerService.findById(result.id);
     const offerToResponse = fillDTO(OfferRdo, offer);
-    this.created(res, offerToResponse);
+    this.created<OfferRdo>(res, offerToResponse);
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
     const offersToResponse = fillDTO(OfferIndexRdo, offers);
-    this.ok(res, offersToResponse);
+    this.ok<OfferIndexRdo>(res, offersToResponse);
   }
 
   public async update(
@@ -101,7 +101,7 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
     const offersToResponse = fillDTO(OfferRdo, updatedOffer);
-    this.ok(res, offersToResponse);
+    this.ok<OfferRdo>(res, offersToResponse);
   }
 
   public async show(
@@ -111,7 +111,7 @@ export default class OfferController extends Controller {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
     const offersToResponse = fillDTO(OfferRdo, offer);
-    this.ok(res, offersToResponse);
+    this.ok<OfferRdo>(res, offersToResponse);
   }
 
   public async delete(
@@ -129,6 +129,6 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const comments = await this.commentService.findByOfferId(params.offerId);
     const commentsToResponse = fillDTO(CommentRdo, comments);
-    this.ok(res, commentsToResponse);
+    this.ok<CommentRdo>(res, commentsToResponse);
   }
 }

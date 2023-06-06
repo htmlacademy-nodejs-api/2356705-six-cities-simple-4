@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "vasyp@overlook.net",
-  "name": "Вася Пупкин",
+  "name": "",
   "password": "shiggh",
   "type": "pro"
 }
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "email": "torans@overlook.net",
-  "password": "123456"
+  "password": ""
 }
 
 ###

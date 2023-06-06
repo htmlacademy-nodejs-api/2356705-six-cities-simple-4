@@ -46,7 +46,7 @@ export default class OfferRdo {
   public price!: number;
 
   @Expose()
-  public comfort!: Comfort[];
+  public comforts!: Comfort[];
 
   @Expose()
   public coordinates!: Coordinates;
