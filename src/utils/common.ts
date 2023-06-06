@@ -5,6 +5,7 @@ import { Offer } from '../types/offer.type.js';
 import { Comfort } from '../types/comfort.enum.js';
 import crypto from 'node:crypto';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
+import * as jose from 'jose';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\r', '').replace('\n', '').split('\t');
@@ -47,3 +48,11 @@ export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export async function createJWT(algorithm: string, jwtSecret: string, payload: object): Promise<string> {
+  return new jose.SignJWT({ ...payload })
+    .setProtectedHeader({ alg: algorithm })
+    .setIssuedAt()
+    .setExpirationTime('2d')
+    .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+}
