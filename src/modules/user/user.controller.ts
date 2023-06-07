@@ -18,6 +18,7 @@ import { UploadFileMiddleware } from '../../common/middleware/upload-file.middle
 import { UnknownRecord } from '../../types/unknown-record.type.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
 import { UserConstants } from '../../types/constants.js';
+import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -47,6 +48,7 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.config.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]

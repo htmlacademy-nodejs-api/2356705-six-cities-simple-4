@@ -22,7 +22,7 @@ export default class OfferIndexRdo {
   public premiumFlag!: boolean;
 
   @Expose()
-  public rating!: number[];
+  public rating!: number;
 
   @Expose()
   public type!: OfferType;

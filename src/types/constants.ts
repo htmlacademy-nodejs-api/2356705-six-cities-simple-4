@@ -30,4 +30,5 @@ export const UserConstants = {
 export const CommentConstants = {
   MIN_TEXT_LENGTH: 5,
   MAX_TEXT_LENGTH: 1024,
+  DEFAULT_COMMENTS_COUNT: 60,
 };

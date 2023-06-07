@@ -1,14 +1,11 @@
-# Получение списка комментариев для предложения
-GET http://localhost:3000/comments HTTP/1.1
-
-###
 # Добавление комментария для предложения
 POST http://localhost:3000/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
 Content-Type: application/json
 
 {
   "text": "Странное предложение",
   "offerId": "646a76c7c0b4d0ec9275092d",
-  "userId": "646a76c7c0b4d0ec9275091d"
+  "rating": 4.33
 }
 ###

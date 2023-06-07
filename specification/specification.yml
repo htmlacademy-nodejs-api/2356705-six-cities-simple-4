@@ -35,6 +35,20 @@ paths:
         - offers
       summary: Список предложений по аренде
       description: Получает список предложений по аренде
+      parameters:
+        - name: limit
+          in: path
+          description: Ограничение на количество выводимых предложений
+          schema:
+            type: number
+
+      responses:
+        "200":
+          description: Получены предложения по аренде отсортированные по дате публикации  (по убыванию)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/offers"
 
   /offers/{offerId}:
     patch:
@@ -55,24 +69,48 @@ paths:
       summary: Детальная информация по предложению
       description: Получает детальную информацию по предложению
 
-  /comments/{offerId}:
+  /offers/{offerId}/comments:
     get:
       tags:
-        - comments
+        - offers
       summary: Список комментариев для предложения
       description: Получает список комментариев для предложения
+      parameters:
+        - name: limit
+          in: path
+          description: Ограничение на количество выводимых комментариев
+          schema:
+            type: number
 
+  /comments/:
     post:
       tags:
         - comments
       summary: Добавление комментария
       description: Добавляет комментарий для предложения
 
+      requestBody:
+        description: Информация для создания нового комментария.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/comment"
+        required: true
+      responses:
+        "201":
+          description: Комментарий добавлен.
+
+        "400":
+          description: Некорректные данные запроса.
+
+        "401":
+          description: Пользователь не авторизован.
+
   /users/register:
     post:
       tags:
         - users
-      summary: Регистрация пользователя
+      summary: Регистрация нового пользователя
       description: Регистрирует нового пользователя.
 
       requestBody:
@@ -101,11 +139,49 @@ paths:
       summary: Авторизация пользователя
       description: Авторизует пользователя на основе логина и пароля
 
+      requestBody:
+        description: Логин и пароль.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/login"
+        required: true
+      responses:
+        "200":
+          description: Пользователь авторизован.
+
+        "401":
+          description: Пользователь не авторизован.
+
     get:
       tags:
         - users
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю
+      responses:
+        "200":
+          description: Пользователь авторизован.
+
+        "401":
+          description: Пользователь не авторизован.
+
+  /users/{offerId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Отправка аватарки пользователю
+      description: Загружает аватарку для пользователя
+
+      responses:
+        "201":
+          description: Аватарка загружена.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/uploadFile"
+
+        "401":
+          description: Пользователь не авторизован.
 
 components:
   schemas:
@@ -125,10 +201,6 @@ components:
           type: string
           example: pro
 
-        avatarPath:
-          type: string
-          example: keks.png
-
         password:
           type: string
           example: 123456
@@ -144,3 +216,85 @@ components:
         email:
           type: string
           example: keks@htmlacademy.ru
+
+    login:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        password:
+          type: string
+          example: password
+
+    comment:
+      type: object
+
+      properties:
+        text:
+          type: string
+          example: Странное предложение
+
+        offerId:
+          type: string
+          example: 646a76c7c0b4d0ec9275092d
+
+        rating:
+          type: string
+          example: 5
+
+    uploadFile:
+      type: object
+
+      properties:
+        filepath:
+          type: string
+          example: uploads\\h7mmvk4zuSoFCwRe847mX.png
+
+    offers:
+      type: array
+      anyOf:
+        - items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 647a92b5b73ca94b73c7e281
+
+            title:
+              type: string
+              example: Годрикова впадина 2
+
+            postDate:
+              type: string
+              example: 2023-06-01T08:45:40.284Z
+
+            city:
+              type: string
+              example: Amsterdam
+
+            previewImage:
+              type: string
+              example: dada.png
+
+            premiumFlag:
+              type: boolean
+              example: false
+
+            rating:
+              type: number
+              example: 4.5
+
+            type:
+              type: string
+              example: apartment
+
+            price:
+              type: number
+              example: 1000
+
+            commentCount:
+              type: number
+              example: 0

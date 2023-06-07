@@ -18,6 +18,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middleware/validate-obj
 import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middleware/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
+import { RequestQuery } from '../../types/request-query.type.js';
 
 type ParamsOfferDetails = {
   offerId: string;
@@ -95,8 +96,10 @@ export default class OfferController extends Controller {
     this.created<OfferRdo>(res, offerToResponse);
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async index({ query }: Request<ParamsOfferDetails, UnknownRecord, UpdateOfferDto, RequestQuery>,
+    res: Response
+  ): Promise<void> {
+    const offers = await this.offerService.find(query.limit);
     const offersToResponse = fillDTO(OfferIndexRdo, offers);
     this.ok<OfferIndexRdo>(res, offersToResponse);
   }
@@ -130,10 +133,10 @@ export default class OfferController extends Controller {
   }
 
   public async getComments(
-    { params }: Request<ParamsOfferDetails, UnknownRecord, UnknownRecord>,
+    { params, query }: Request<ParamsOfferDetails, UnknownRecord, UnknownRecord, RequestQuery>,
     res: Response
   ): Promise<void> {
-    const comments = await this.commentService.findByOfferId(params.offerId);
+    const comments = await this.commentService.findByOfferId(params.offerId, query.limit);
     const commentsToResponse = fillDTO(CommentRdo, comments);
     this.ok<CommentRdo>(res, commentsToResponse);
   }
