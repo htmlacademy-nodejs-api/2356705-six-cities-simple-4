@@ -19,8 +19,10 @@ export default class Application {
     @inject(Component.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface,
     @inject(Component.OfferController) private readonly offerController: ControllerInterface,
     @inject(Component.UserController) private readonly userController: ControllerInterface,
-    @inject(Component.ExceptionFilterInterface) private readonly exceptionFilter: ExceptionFilterInterface,
     @inject(Component.CommentController) private readonly commentController: ControllerInterface,
+    @inject(Component.HttpErrorExceptionFilter) private readonly httpErrorExceptionFilter: ExceptionFilterInterface,
+    @inject(Component.BaseExceptionFilter) private readonly baseExceptionFilter: ExceptionFilterInterface,
+    @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilterInterface,
   ) {
     this.expressApplication = express();
   }
@@ -70,7 +72,9 @@ export default class Application {
 
   private async _initExceptionFilters() {
     this.logger.info('Exception filters initialization');
-    this.expressApplication.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    this.expressApplication.use(this.validationExceptionFilter.catch.bind(this.validationExceptionFilter));
+    this.expressApplication.use(this.httpErrorExceptionFilter.catch.bind(this.httpErrorExceptionFilter));
+    this.expressApplication.use(this.baseExceptionFilter.catch.bind(this.baseExceptionFilter));
     this.logger.info('Exception filters completed');
   }
 
