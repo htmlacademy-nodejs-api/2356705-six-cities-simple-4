@@ -13,6 +13,7 @@ import { Component } from '../../types/component.types.js';
 import { fillDTO } from '../../utils/common.js';
 import HttpError from '../../common/errors/http-error.js';
 import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -29,13 +30,14 @@ export default class CommentController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto),
       ]
     });
   }
 
   public async create(
-    { body }: Request<UnknownRecord, UnknownRecord, CreateCommentDto>,
+    { body, user }: Request<UnknownRecord, UnknownRecord, CreateCommentDto>,
     res: Response
   ): Promise<void> {
 
@@ -47,9 +49,9 @@ export default class CommentController extends Controller {
       );
     }
 
-    const comment = await this.commentService.create(body);
+    const comment = await this.commentService.create({ ...body, userId: user.id });
     await this.offerService.incCommentCount(body.offerId);
     const commentToResponse = fillDTO(CommentRdo, comment);
-    this.created(res, commentToResponse);
+    this.created<CommentRdo>(res, commentToResponse);
   }
 }

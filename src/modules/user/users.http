@@ -1,4 +1,4 @@
-# Создание нового пользователя
+# Регистрация нового пользователя
 POST http://localhost:3000/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -10,25 +10,24 @@ Content-Type: application/json
 }
 
 ###
-# Вход в закрытую часть приложения
-
+# Авторизация пользователя
 POST http://localhost:3000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans@overlook.net",
-  "password": "123456"
+  "email": "vasyp@overlook.net",
+  "password": "shiggh"
 }
 
 ###
 # Проверка состояния пользователя
 GET http://localhost:3000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
 
 ###
-
-## Отправка аватарки пользователю
-
+# Отправка аватарки пользователю
 POST http://localhost:3000/users/646a757820ae59d340604946/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

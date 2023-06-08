@@ -31,7 +31,7 @@ export default class OfferRdo {
   public premiumFlag!: boolean;
 
   @Expose()
-  public rating!: number[];
+  public rating!: number;
 
   @Expose()
   public type!: OfferType;
@@ -46,7 +46,7 @@ export default class OfferRdo {
   public price!: number;
 
   @Expose()
-  public comfort!: Comfort[];
+  public comforts!: Comfort[];
 
   @Expose()
   public coordinates!: Coordinates;

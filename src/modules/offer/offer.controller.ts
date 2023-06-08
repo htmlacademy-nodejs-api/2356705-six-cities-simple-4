@@ -17,6 +17,8 @@ import CommentRdo from '../comment/rdo/comment.rdo.js';
 import { ValidateObjectIdMiddleware } from '../../common/middleware/validate-objectid.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middleware/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
+import { RequestQuery } from '../../types/request-query.type.js';
 
 type ParamsOfferDetails = {
   offerId: string;
@@ -37,7 +39,10 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({
@@ -54,6 +59,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
@@ -63,6 +69,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -80,19 +87,21 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    { body }: Request<UnknownRecord, UnknownRecord, CreateOfferDto>,
+    { body, user }: Request<UnknownRecord, UnknownRecord, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create(body);
+    const result = await this.offerService.create({ ...body, userId: user.id });
     const offer = await this.offerService.findById(result.id);
     const offerToResponse = fillDTO(OfferRdo, offer);
-    this.created(res, offerToResponse);
+    this.created<OfferRdo>(res, offerToResponse);
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async index({ query }: Request<ParamsOfferDetails, UnknownRecord, UpdateOfferDto, RequestQuery>,
+    res: Response
+  ): Promise<void> {
+    const offers = await this.offerService.find(query.limit);
     const offersToResponse = fillDTO(OfferIndexRdo, offers);
-    this.ok(res, offersToResponse);
+    this.ok<OfferIndexRdo>(res, offersToResponse);
   }
 
   public async update(
@@ -101,7 +110,7 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
     const offersToResponse = fillDTO(OfferRdo, updatedOffer);
-    this.ok(res, offersToResponse);
+    this.ok<OfferRdo>(res, offersToResponse);
   }
 
   public async show(
@@ -111,7 +120,7 @@ export default class OfferController extends Controller {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
     const offersToResponse = fillDTO(OfferRdo, offer);
-    this.ok(res, offersToResponse);
+    this.ok<OfferRdo>(res, offersToResponse);
   }
 
   public async delete(
@@ -124,11 +133,11 @@ export default class OfferController extends Controller {
   }
 
   public async getComments(
-    { params }: Request<ParamsOfferDetails, UnknownRecord, UnknownRecord>,
+    { params, query }: Request<ParamsOfferDetails, UnknownRecord, UnknownRecord, RequestQuery>,
     res: Response
   ): Promise<void> {
-    const comments = await this.commentService.findByOfferId(params.offerId);
+    const comments = await this.commentService.findByOfferId(params.offerId, query.limit);
     const commentsToResponse = fillDTO(CommentRdo, comments);
-    this.ok(res, commentsToResponse);
+    this.ok<CommentRdo>(res, commentsToResponse);
   }
 }

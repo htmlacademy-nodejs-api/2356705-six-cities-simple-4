@@ -5,10 +5,11 @@ import { Offer } from '../types/offer.type.js';
 import { Comfort } from '../types/comfort.enum.js';
 import crypto from 'node:crypto';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
+import * as jose from 'jose';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\r', '').replace('\n', '').split('\t');
-  const [title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests, price, comfort, userName, email, avatarPath, password, userType, latitude, longitude] = tokens;
+  const [title, description, createdDate, city, previewImage, photos, premiumFlag, rating, type, rooms, guests, price, comforts, userName, email, avatarPath, password, userType, latitude, longitude] = tokens;
   return {
     title,
     description,
@@ -22,7 +23,7 @@ export const createOffer = (row: string) => {
     rooms: Number.parseInt(rooms, 10),
     guests: Number.parseInt(guests, 10),
     price: Number.parseInt(price, 10),
-    comfort: comfort.split(';')
+    comforts: comforts.split(';')
       .map((oneComfort) => (Comfort[oneComfort as 'Breakfast' | 'AirConditioning' | 'LaptopFriendlyWorkspace' | 'BabySeat' | 'Washer' | 'Towels' | 'Fridge'])),
     user: { name: userName, email, avatarPath, password, type: UserType[userType as 'Pro' | 'Basic'] },
     comments: [],
@@ -47,3 +48,11 @@ export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export async function createJWT(algorithm: string, jwtSecret: string, payload: object): Promise<string> {
+  return new jose.SignJWT({ ...payload })
+    .setProtectedHeader({ alg: algorithm })
+    .setIssuedAt()
+    .setExpirationTime('2d')
+    .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+}
