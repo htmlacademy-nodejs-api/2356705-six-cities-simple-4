@@ -82,6 +82,20 @@ paths:
           schema:
             type: number
 
+  /offers/{offerId}/previewImage:
+    get:
+      tags:
+        - offers
+      summary: Загрузка превью изображения
+      description: Загружает превью изображения
+
+      responses:
+        "201":
+          description: Превью изображения загружена.
+
+        "401":
+          description: Пользователь не авторизован.
+
   /comments/:
     post:
       tags:

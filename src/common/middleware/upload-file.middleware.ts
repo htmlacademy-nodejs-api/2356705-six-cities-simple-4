@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid';
 import multer, { diskStorage } from 'multer';
 import mime from 'mime-types';
 import { MiddlewareInterface } from './middleware.interface';
+import { UPLOAD_IMAGE_EXTENSIONS } from '../../types/constants.js';
+import HttpError from '../errors/http-error.js';
+import { StatusCodes } from 'http-status-codes';
 
 export class UploadFileMiddleware implements MiddlewareInterface {
   constructor(
@@ -15,6 +18,13 @@ export class UploadFileMiddleware implements MiddlewareInterface {
       destination: this.uploadDirectory,
       filename: (_req, file, callback) => {
         const extension = mime.extension(file.mimetype);
+        if (UPLOAD_IMAGE_EXTENSIONS.indexOf(extension.toString()) >= 0) {
+          throw new HttpError(
+            StatusCodes.BAD_REQUEST,
+            `${extension} extension is not in the allowed list for the image.`,
+            'UploadFileMiddleware'
+          );
+        }
         const filename = nanoid();
         callback(null, `${filename}.${extension}`);
       }

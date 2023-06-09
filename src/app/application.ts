@@ -1,3 +1,4 @@
+import cors from 'cors';
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -9,6 +10,7 @@ import express, { Express } from 'express';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/exception-filters/exception-filter.interface.js';
 import { AuthenticateMiddleware } from '../common/middleware/authenticate.middleware.js';
+import { getFullServerPath } from '../utils/common.js';
 
 @injectable()
 export default class Application {
@@ -47,7 +49,7 @@ export default class Application {
     const port = this.config.get('PORT');
     this.expressApplication.listen(port);
 
-    this.logger.info(`🚀Сервер запущен на http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`🚀Сервер запущен на ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 
   private async _initRoutes() {
@@ -65,8 +67,13 @@ export default class Application {
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    this.expressApplication.use(
+      '/static',
+      express.static(this.config.get('STATIC_DIRECTORY_PATH'))
+    );
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApplication.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.expressApplication.use(cors());
     this.logger.info('Global middleware initialization completed');
   }
 

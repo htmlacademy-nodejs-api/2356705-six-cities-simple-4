@@ -19,6 +19,9 @@ import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.midd
 import { DocumentExistsMiddleware } from '../../common/middleware/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
 import { RequestQuery } from '../../types/request-query.type.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
+import UploadPreviewImageResponse from './rdo/upload-image.response.js';
+import { UploadFileMiddleware } from '../../common/middleware/upload-file.middleware.js';
 
 type ParamsOfferDetails = {
   offerId: string;
@@ -30,8 +33,9 @@ export default class OfferController extends Controller {
     @inject(Component.LoggerInterface) protected readonly logger: LoggerInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.ConfigInterface) config: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, config);
 
     this.logger.info('Маршруты для OfferController…');
 
@@ -82,6 +86,16 @@ export default class OfferController extends Controller {
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
+    });
+    this.addRoute({
+      path: '/:offerId/previewImage',
+      method: HttpMethod.Post,
+      handler: this.uploadPreviewImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.config.get('UPLOAD_DIRECTORY'), 'image'),
       ]
     });
   }
@@ -139,5 +153,12 @@ export default class OfferController extends Controller {
     const comments = await this.commentService.findByOfferId(params.offerId, query.limit);
     const commentsToResponse = fillDTO(CommentRdo, comments);
     this.ok<CommentRdo>(res, commentsToResponse);
+  }
+
+  public async uploadPreviewImage(req: Request<ParamsOfferDetails>, res: Response) {
+    const { offerId } = req.params;
+    const updateDto = { previewImage: req.file?.filename };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadPreviewImageResponse, { updateDto }));
   }
 }

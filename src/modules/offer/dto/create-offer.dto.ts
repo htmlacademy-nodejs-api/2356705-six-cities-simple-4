@@ -22,9 +22,6 @@ export default class CreateOfferDto {
   @IsEnum(CityEnum)
   public city!: CityEnum;
 
-  @IsString()
-  public previewImage!: string;
-
   @IsArray()
   @ArrayMinSize(OfferConstants.PHOTOS_ARRAY_SIZE)
   @ArrayMaxSize(OfferConstants.PHOTOS_ARRAY_SIZE)

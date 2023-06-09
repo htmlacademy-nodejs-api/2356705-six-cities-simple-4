@@ -1,3 +1,18 @@
+export const DEFAULT_STATIC_IMAGES = [
+  'default-avatar.jpg',
+  'default-preview.jpg',
+];
+
+export const STATIC_RESOURCE_FIELDS = [
+  'avatarPath',
+  'image'
+];
+
+export const UPLOAD_IMAGE_EXTENSIONS = [
+  'jpg',
+  'png'
+];
+
 export const OfferConstants = {
   MIN_NAME_LENGTH: 10,
   MAX_NAME_LENGTH: 100,
@@ -14,6 +29,7 @@ export const OfferConstants = {
   MIN_PRICE: 100,
   MAX_PRICE: 100_000,
   DEFAULT_OFFERS_COUNT: 60,
+  DEFAULT_PREVIEW_FILE_NAME: 'default-preview.jpg',
 };
 export const OfferMessages = {
   ERROR_RATING_PRECISION: `$property must be an number with precision is ${OfferConstants.RATING_PRECISION}`,
@@ -24,7 +40,8 @@ export const UserConstants = {
   MAX_NAME_LENGTH: 15,
   MIN_PASSWORD_LENGTH: 6,
   MAX_PASSWORD_LENGTH: 12,
-  JWT_ALGORITHM: 'HS256'
+  JWT_ALGORITHM: 'HS256',
+  DEFAULT_AVATAR_FILE_NAME: 'default-avatar.jpg',
 };
 
 export const CommentConstants = {
