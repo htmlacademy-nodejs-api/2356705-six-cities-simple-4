@@ -2,7 +2,7 @@ import { Type } from 'class-transformer';
 import { CityEnum } from '../../../types/city.enum.js';
 import { Comfort } from '../../../types/comfort.enum.js';
 import { OfferType } from '../../../types/offer-type.enum.js';
-import { IsArray, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsBoolean, IsNumber, ArrayMinSize, ArrayMaxSize, ArrayUnique, IsObject, ValidateNested, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsBoolean, IsNumber, ArrayMinSize, ArrayMaxSize, ArrayUnique, IsObject, ValidateNested } from 'class-validator';
 import { Coordinates } from './coordinates.dto.js';
 import { OfferConstants, OfferMessages } from '../../../types/constants.js';
 
