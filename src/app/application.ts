@@ -1,3 +1,4 @@
+import cors from 'cors';
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -9,6 +10,7 @@ import express, { Express } from 'express';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/exception-filters/exception-filter.interface.js';
 import { AuthenticateMiddleware } from '../common/middleware/authenticate.middleware.js';
+import { getFullServerPath } from '../utils/common.js';
 
 @injectable()
 export default class Application {
@@ -19,8 +21,10 @@ export default class Application {
     @inject(Component.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface,
     @inject(Component.OfferController) private readonly offerController: ControllerInterface,
     @inject(Component.UserController) private readonly userController: ControllerInterface,
-    @inject(Component.ExceptionFilterInterface) private readonly exceptionFilter: ExceptionFilterInterface,
     @inject(Component.CommentController) private readonly commentController: ControllerInterface,
+    @inject(Component.HttpErrorExceptionFilter) private readonly httpErrorExceptionFilter: ExceptionFilterInterface,
+    @inject(Component.BaseExceptionFilter) private readonly baseExceptionFilter: ExceptionFilterInterface,
+    @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilterInterface,
   ) {
     this.expressApplication = express();
   }
@@ -45,7 +49,7 @@ export default class Application {
     const port = this.config.get('PORT');
     this.expressApplication.listen(port);
 
-    this.logger.info(`🚀Сервер запущен на http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`🚀Сервер запущен на ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 
   private async _initRoutes() {
@@ -63,14 +67,21 @@ export default class Application {
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    this.expressApplication.use(
+      '/static',
+      express.static(this.config.get('STATIC_DIRECTORY_PATH'))
+    );
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApplication.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.expressApplication.use(cors());
     this.logger.info('Global middleware initialization completed');
   }
 
   private async _initExceptionFilters() {
     this.logger.info('Exception filters initialization');
-    this.expressApplication.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
+    this.expressApplication.use(this.validationExceptionFilter.catch.bind(this.validationExceptionFilter));
+    this.expressApplication.use(this.httpErrorExceptionFilter.catch.bind(this.httpErrorExceptionFilter));
+    this.expressApplication.use(this.baseExceptionFilter.catch.bind(this.baseExceptionFilter));
     this.logger.info('Exception filters completed');
   }
 

@@ -19,15 +19,16 @@ import { UnknownRecord } from '../../types/unknown-record.type.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
 import { UserConstants } from '../../types/constants.js';
 import { PrivateRouteMiddleware } from '../../common/middleware/private-route.middleware.js';
+import UploadUserAvatarResponse from './rdo/upload-user-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.ConfigInterface) private config: ConfigInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
+    @inject(Component.ConfigInterface) protected config: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, config);
 
     this.logger.info('Маршруты для UserController…');
 
@@ -105,29 +106,30 @@ export default class UserController extends Controller {
       }
     );
 
-    const logedUserToResponse = fillDTO(LoggedUserRdo, {
-      email: user.email,
+    const logedUserToResponse = {
+      ...fillDTO(LoggedUserRdo, user),
       token
-    });
+    };
     this.ok<LoggedUserRdo>(res, logedUserToResponse);
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const { userId } = req.params;
+    const uploadFile = { avatarPath: req.file?.filename };
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 
-  public async checkAuthenticate({ user: { email } }: Request, res: Response) {
-    const foundedUser = await this.userService.findByEmail(email);
-
-    if (!foundedUser) {
+  public async checkAuthenticate(req: Request, res: Response) {
+    if (!req.user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
         'Unauthorized',
         'UserController'
       );
     }
+    const { user: { email } } = req;
+    const foundedUser = await this.userService.findByEmail(email);
     const logedUserToResponse = fillDTO(LoggedUserRdo, foundedUser);
     this.ok<LoggedUserRdo>(res, logedUserToResponse);
   }

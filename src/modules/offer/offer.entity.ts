@@ -31,7 +31,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: CityEnum;
 
-  @prop({ trim: true, required: true })
+  @prop({ required: false })
   public previewImage!: string;
 
   @prop({ required: true })

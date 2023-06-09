@@ -9,8 +9,6 @@ export default class CreateUserDto {
   @IsEmail()
   public email!: string;
 
-  public avatarPath!: string;
-
   @IsEnum(UserType)
   public type!: UserType;
 
