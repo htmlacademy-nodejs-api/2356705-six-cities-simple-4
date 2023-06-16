@@ -3,19 +3,19 @@ services:
   db:
     image: mongo:4.2
     restart: always
-    container_name: six-cities-simple_mongodb
+    container_name: six-cities-simple-dev_mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: test
     ports:
       - 27017:27017
     volumes:
-      - six-cities-simple_data:/data/db
+      - six-cities-simple-dev_data:/data/db
 
   db_ui:
     image: mongo-express:latest
     restart: always
-    container_name: six-cities-simple_mongo_express
+    container_name: six-cities-simple-dev_mongo_express
     ports:
       - 8081:8081
     environment:
@@ -26,4 +26,4 @@ services:
       - db
 
 volumes:
-  six-cities-simple_data:
+  six-cities-simple-dev_data:

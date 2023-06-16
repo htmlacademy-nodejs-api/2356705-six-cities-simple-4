@@ -65,7 +65,7 @@ export default class UpdateOfferDto {
 
   @IsOptional()
   @IsArray()
-  @IsEnum(Comfort)
+  @IsEnum(Comfort, { each: true })
   @ArrayUnique()
   public comforts?: Comfort[];
 

@@ -15,7 +15,8 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "ts-node",
-    "start:dev": "nodemon",
+    "start:nodemon": "nodemon",
+    "start:dev": "npm run ts -- --files ./src/main.ts | pino-pretty --colorize --translateTime SYS:standard",
     "mock:server": "json-server ./mocks/mock-server-data.json --host=127.0.0.1 --port 3123"
   },
   "devDependencies": {

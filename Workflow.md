@@ -1,5 +1,52 @@
 # Как работать над проектом
+## Переменные окружения
+Необходимые настройки для запуска и работы сервиса, передаются с помощью переменных окружения.
+Список всех переменных окружения, с примерами значений и описанием:
+```env
+HOST=localhost - Хост, на котором работает REST API сервис
+PORT=3000 - Порт, на котором работает REST API сервис
+SALT=ssecret - Соль для хэширования паролей пользователей
+DB_HOST=127.0.0.1 - Хост MongoDB
+DB_PORT=27017 - Порт MongoDB
+DB_USER=admin - Пользователь для доступа к MongoDB
+DB_PASSWORD=test - Пароль для доступа к MongoDB
+DB_NAME=six-cities-simple - Название рабочей БД в MongoDB
+UPLOAD_DIRECTORY=uploads - Путь к каталогу для загрузки изображений
+JWT_SECRET=sssecret - Соль для хэширования авторизационных ключей
+```
+## Запуск проекта
 
+## Сценарии
+```bash
+npm run start
+```
+```bash
+npm run build
+```
+```bash
+npm run lint
+```
+```bash
+npm run lint -- --fix
+```
+```bash
+npm run compile
+```
+```bash
+npm run clean
+```
+```bash
+npm run ts
+```
+```bash
+npm run start:nodemon
+```
+```bash
+npm run start:dev
+```
+```bash
+npm run mock:server
+```
 ## Docker контейнер
 
 Установит контейнеры с MongoDB и Mongo-Express
