@@ -18,19 +18,25 @@ export class UploadFileMiddleware implements MiddlewareInterface {
       destination: this.uploadDirectory,
       filename: (_req, file, callback) => {
         const extension = mime.extension(file.mimetype);
-        if (UPLOAD_IMAGE_EXTENSIONS.indexOf(extension.toString()) >= 0) {
-          throw new HttpError(
-            StatusCodes.BAD_REQUEST,
-            `${extension} extension is not in the allowed list for the image.`,
-            'UploadFileMiddleware'
-          );
-        }
         const filename = nanoid();
         callback(null, `${filename}.${extension}`);
       }
     });
 
-    const uploadSingleFileMiddleware = multer({ storage })
+    const uploadSingleFileMiddleware = multer({
+      storage,
+      fileFilter: function (_req, file, callback) {
+        const extension = mime.extension(file.mimetype);
+        if (extension && UPLOAD_IMAGE_EXTENSIONS.indexOf(extension) === -1) {
+          return callback(new HttpError(
+            StatusCodes.BAD_REQUEST,
+            `${extension} extension is not in the allowed list for the image.`,
+            'UploadFileMiddleware'
+          ));
+        }
+        callback(null, true);
+      }
+    })
       .single(this.fieldName);
 
     uploadSingleFileMiddleware(req, res, next);

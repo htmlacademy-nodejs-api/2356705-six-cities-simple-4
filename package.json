@@ -15,6 +15,7 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "ts-node",
+    "cli": "npm run ts ./src/cli.ts",
     "start:nodemon": "nodemon",
     "start:dev": "npm run ts -- --files ./src/main.ts | pino-pretty --colorize --translateTime SYS:standard",
     "mock:server": "json-server ./mocks/mock-server-data.json --host=127.0.0.1 --port 3123"
@@ -26,7 +27,7 @@
     "@types/express": "4.17.17",
     "@types/mime-types": "2.1.1",
     "@types/multer": "1.4.7",
-    "@types/node": "^18.16.3",
+    "@types/node": "18.16.3",
     "@typescript-eslint/eslint-plugin": "5.46.0",
     "@typescript-eslint/parser": "5.46.0",
     "eslint": "8.39.0",

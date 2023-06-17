@@ -68,8 +68,16 @@ export function transformErrors(errors: ValidationError[]): ValidationErrorField
   return errors.map(({ property, value, constraints, children }) => ({
     property,
     value,
-    messages: constraints ? Object.values(constraints) : [],
-    children: children ? Object.values(children) : [],
+    messages: (() => {
+      if (constraints) {
+        return Object.values(constraints);
+      } else
+      if (children) {
+        return transformErrors(children).map(({ messages }) => messages.join(','));
+      } else {
+        return [];
+      }
+    })()
   }));
 }
 

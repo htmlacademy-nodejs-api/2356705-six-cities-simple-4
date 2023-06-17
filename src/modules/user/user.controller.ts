@@ -62,9 +62,16 @@ export default class UserController extends Controller {
   }
 
   public async create(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    { body, user }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response
   ): Promise<void> {
+    if (user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Already authorized',
+        'UserController'
+      );
+    }
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
@@ -75,8 +82,8 @@ export default class UserController extends Controller {
       );
     }
 
-    const user = await this.userService.create(body, this.config.get('SALT'));
-    const userToResponse = fillDTO(UserRdo, user);
+    const newUser = await this.userService.create(body, this.config.get('SALT'));
+    const userToResponse = fillDTO(UserRdo, newUser);
     this.created<UserRdo>(res, userToResponse);
   }
 
