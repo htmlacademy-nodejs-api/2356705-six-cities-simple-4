@@ -1,10 +1,11 @@
 # Регистрация нового пользователя
 POST http://localhost:3000/users/register HTTP/1.1
+#Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4Njk1NjAxMSwiZXhwIjoxNjg3MTI4ODExfQ.usawfz-x7GWluPADl-A6BkhwvJKEaUtCoJ9I9fR9vnc
 Content-Type: application/json
 
 {
-  "email": "vasyp@overlook.net",
-  "name": "Вася Пупкин",
+  "email": "vasyyk@overlook.net",
+  "name": "Вася Уткин",
   "password": "shiggh",
   "type": "pro"
 }
@@ -15,23 +16,23 @@ POST http://localhost:3000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "vasyp@overlook.net",
+  "email": "vasyy@overlook.net",
   "password": "shiggh"
 }
 
 ###
 # Проверка состояния пользователя
 GET http://localhost:3000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4NzEyNjE2MCwiZXhwIjoxNjg3Mjk4OTYwfQ.-Yq4jcmDcR9iCZiNaNCe0Ph6qOnUGNMEKQDL7QQJq4w
 
 ###
 # Отправка аватарки пользователю
-POST http://localhost:3000/users/646a757820ae59d340604946/avatar HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
+POST http://localhost:3000/users/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4NzEyNjE2MCwiZXhwIjoxNjg3Mjk4OTYwfQ.-Yq4jcmDcR9iCZiNaNCe0Ph6qOnUGNMEKQDL7QQJq4w
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Disposition: form-data; name="avatar"; filename="avatar.png"
 Content-Type: image/png
 
 < C:\Users\moyam\Downloads\avatar.png

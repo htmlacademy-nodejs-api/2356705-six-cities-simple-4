@@ -179,7 +179,7 @@ paths:
         "401":
           description: Пользователь не авторизован.
 
-  /users/{offerId}/avatar:
+  /users/avatar:
     post:
       tags:
         - users
@@ -263,9 +263,9 @@ components:
       type: object
 
       properties:
-        filepath:
+        avatarPath:
           type: string
-          example: uploads\\h7mmvk4zuSoFCwRe847mX.png
+          example: http://localhost:3000/uploads/4EjbyOpw5y9ZcrO7L-Vfo.png
 
     offers:
       type: array

@@ -65,10 +65,19 @@ export async function createJWT(algorithm: string, jwtSecret: string, payload: o
 }
 
 export function transformErrors(errors: ValidationError[]): ValidationErrorField[] {
-  return errors.map(({ property, value, constraints }) => ({
+  return errors.map(({ property, value, constraints, children }) => ({
     property,
     value,
-    messages: constraints ? Object.values(constraints) : []
+    messages: (() => {
+      if (constraints) {
+        return Object.values(constraints);
+      } else
+      if (children) {
+        return transformErrors(children).map(({ messages }) => messages.join(','));
+      } else {
+        return [];
+      }
+    })()
   }));
 }
 

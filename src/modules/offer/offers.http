@@ -41,14 +41,14 @@ Content-Type: application/json
 ###
 # Редактирование предложения
 PATCH http://localhost:3000/offers/646a76c7c0b4d0ec9275092d HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4NjA5MjQwNSwiZXhwIjoxNjg2MjY1MjA1fQ.VSyQ_1_21s27J8TDEaGRGCgyI_ueUXaGyCgQ1ZXTA74
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3lwQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ3YTk0ZTg5NTIxOTc4YTYzNDAyNGY4IiwidHlwZSI6InBybyIsImlhdCI6MTY4Njk1MjA4OSwiZXhwIjoxNjg3MTI0ODg5fQ.7FI3xlHPokoIZoy0St_WJD9RCxBKvENu65qjkiyDWAc
 Content-Type: application/json
 
 {
   "title": "UPD Хрущевка в центре",
-  "description": "UPD Отличный вариант для тех, кто хочет жить в центре и не переплачивать",
+  "description": "UPD",
   "coordinates": {
-    "latitude": "52.370216",
+    "latitude": "5442.370216",
     "longitude": "4.895168"
   },
   "rating": 5
@@ -67,7 +67,9 @@ GET http://localhost:3000/offers/646a76c7c0b4d0ec92750d2d HTTP/1.1
 ## Список комментариев к предложению
 GET http://localhost:3000/offers/646a76c7c0b4d0ec9275092d/comments?limit=3 HTTP/1.1
 
+
 ###
+
 ## Загрузка превью для предложения
 POST http://localhost:4000/offers/628a27d729c45f2bf9f6806a/previewImage HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
