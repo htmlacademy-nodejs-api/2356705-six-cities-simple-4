@@ -23,17 +23,17 @@ Content-Type: application/json
 ###
 # Проверка состояния пользователя
 GET http://localhost:3000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4Njk1NzU5MywiZXhwIjoxNjg3MTMwMzkzfQ.oGaXIOjQqKbhWlg5SGc33KvVVOqgyiN0iZXzhTulj2U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4NzEyNjE2MCwiZXhwIjoxNjg3Mjk4OTYwfQ.-Yq4jcmDcR9iCZiNaNCe0Ph6qOnUGNMEKQDL7QQJq4w
 
 ###
 # Отправка аватарки пользователю
-POST http://localhost:3000/users/646a757820ae59d340604946/avatar HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4Njk1NzkwNywiZXhwIjoxNjg3MTMwNzA3fQ.uasPLcrmsWS-pfu1frG1Np_G2as31b0Kk3ZYJNMmwXg
+POST http://localhost:3000/users/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InZhc3l5QG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4Y2U3ZDdkMGEwMWI5MGVkZTI4YTg0IiwidHlwZSI6InBybyIsImlhdCI6MTY4NzEyNjE2MCwiZXhwIjoxNjg3Mjk4OTYwfQ.-Yq4jcmDcR9iCZiNaNCe0Ph6qOnUGNMEKQDL7QQJq4w
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="avatar"; filename="1.css"
-Content-Type: text/css
+Content-Disposition: form-data; name="avatar"; filename="avatar.png"
+Content-Type: image/png
 
-< C:\Users\moyam\Downloads\1.css
+< C:\Users\moyam\Downloads\avatar.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--

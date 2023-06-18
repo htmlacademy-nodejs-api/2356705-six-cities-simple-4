@@ -13,7 +13,6 @@ import { ConfigInterface } from '../../common/config/config.interface.js';
 import HttpError from '../../common/errors/http-error.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import { ValidateDtoMiddleware } from '../../common/middleware/validate-dto.middleware.js';
-import { ValidateObjectIdMiddleware } from '../../common/middleware/validate-objectid.middleware.js';
 import { UploadFileMiddleware } from '../../common/middleware/upload-file.middleware.js';
 import { UnknownRecord } from '../../types/unknown-record.type.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
@@ -45,12 +44,11 @@ export default class UserController extends Controller {
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
-      path: '/:userId/avatar',
+      path: '/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.config.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
@@ -121,10 +119,11 @@ export default class UserController extends Controller {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    const { userId } = req.params;
+    const userId = req.user.id;
     const uploadFile = { avatarPath: req.file?.filename };
     await this.userService.updateById(userId, uploadFile);
-    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
+    const uploadFileToResponse = fillDTO(UploadUserAvatarResponse, uploadFile);
+    this.created(res, uploadFileToResponse);
   }
 
   public async checkAuthenticate(req: Request, res: Response) {

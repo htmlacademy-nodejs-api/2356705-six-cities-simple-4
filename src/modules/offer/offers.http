@@ -48,7 +48,7 @@ Content-Type: application/json
   "title": "UPD Хрущевка в центре",
   "description": "UPD",
   "coordinates": {
-    "latitude": "52.370216",
+    "latitude": "5442.370216",
     "longitude": "4.895168"
   },
   "rating": 5
