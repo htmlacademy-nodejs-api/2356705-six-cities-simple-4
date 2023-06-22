@@ -71,12 +71,13 @@ export function transformErrors(errors: ValidationError[]): ValidationErrorField
     messages: (() => {
       if (constraints) {
         return Object.values(constraints);
-      } else
-      if (children) {
-        return transformErrors(children).map(({ messages }) => messages.join(','));
-      } else {
-        return [];
       }
+
+      if (children) {
+        return transformErrors(children).map(({ messages }) => messages).flat();
+      }
+
+      return [];
     })()
   }));
 }

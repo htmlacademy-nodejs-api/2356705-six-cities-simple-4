@@ -13,6 +13,11 @@ export const UPLOAD_IMAGE_EXTENSIONS = [
   'png'
 ];
 
+export const TsvFileStream = {
+  READ_PART_SIZE_KB_16: 16384,
+  WRITE_PART_SIZE_KB_64: 2 ** 16
+};
+
 export const OfferConstants = {
   MIN_NAME_LENGTH: 10,
   MAX_NAME_LENGTH: 100,
